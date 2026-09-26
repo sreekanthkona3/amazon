@@ -1,8 +1,9 @@
-
+import {useEffect} from "react"
 
 import './App.css'
 
 function App() {
+  const val="new"
   
 
   return (
