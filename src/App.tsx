@@ -1,18 +1,47 @@
-import {useEffect} from "react"
+import { useEffect, useState } from 'react';
 
-import './App.css'
-
-function App() {
-  const val="new"
-  
-
-  return (
-    <>
-     <h3>Amzon Cart</h3>
-     <p>New Changes added to the live</p>
-     {/* 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 */}
-    </>
-  )
+interface User {
+  id: number;
+  name: string;
+  age: number;
 }
 
-export default App
+function App() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+console.log(BASE_URL);
+
+  useEffect(() => {
+    async function fetchUsers() {
+      try {
+        const res = await fetch(`${BASE_URL}/api/users`);
+        if (!res.ok) throw new Error('Failed to fetch');
+        const data: User[] = await res.json();
+        setUsers(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchUsers();
+  }, [BASE_URL]);
+
+  if (loading) return <p>Loading...</p>;
+
+  return (
+    <div>
+      <h1>Users</h1>
+      {users.map((u) => (
+        <p key={u.id}>
+          {u.name} - {u.age}
+        </p>
+      ))}
+    </div>
+  );
+}
+
+export default App;
