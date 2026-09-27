@@ -35,7 +35,7 @@ console.log(BASE_URL);
   return (
     <div>
       <h1>Users</h1>
-      <h1>Latest</h1>
+      <h4>Latest</h4>
       {users.map((u) => (
         <p key={u.id}>
           {u.name} - {u.age}
